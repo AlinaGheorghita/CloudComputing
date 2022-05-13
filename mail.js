@@ -1,41 +1,56 @@
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const dotenv = require("dotenv");
-dotenv.config();
+// // const sgMail = require("@sendgrid/mail");
+// // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// // const dotenv = require("dotenv");
+// // dotenv.config();
+
+// // const sendMail = async (sender, subject, msg) => {
+// //     const message = `
+// //         Email: ${sender}\r\n
+// //         Message: ${msg}
+// //       `;
+
+
+// //     const data = {
+// //         to: 'alinagheorghita25@gmail.com',
+// //         from: 'alinagheorghita25@gmail.com',
+// //         subject,
+// //         text: message,
+// //     };
+
+// //     await sgMail.send(data);
+// // };
+
+
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
+    auth: {
+        user: 'reina.senger93@ethereal.email',
+        pass: 'wSfSn21UnZHaC7hZHn'
+    }
+});
 
 const sendMail = async (sender, subject, msg) => {
-    const message = `
+    const mg = `
         Email: ${sender}\r\n
         Message: ${msg}
-      `;
+    `;
 
+    const message = {
+        from: `${sender}`,
+        to: "reina.senger93@ethereal.email",
+        subject: `${subject}`,
+        text: `${mg}`
+    }
 
-    const data = {
-        to: 'alinagheorghita25@gmail.com',
-        from: 'alinagheorghita25@gmail.com',
-        subject,
-        text: message,
-    };
-    console.log(data);
-    await sgMail.send(data);
-};
-// const msgToSend = {
-//     to: receiver,
-//     from: sender,
-//     subject: subject,
-//     text: msg,
-// };
-
-// sgMail
-//     .send(msgToSend)
-//     .then((response) => {
-//         console.log(response[0].statusCode);
-//         return response[0].statusCode;
-//     })
-//     .catch((error) => {
-//         console.error(error);
-//     });
-//};
+    transporter.sendMail(message, function(err, info) {
+        if (err) {
+        console.log(err)
+        }
+    });
+}
 
 module.exports = {
     sendMail,

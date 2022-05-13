@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 
 import axios from 'axios';
@@ -30,8 +30,6 @@ const inputFieldValues = [
         id: "my-email",
     },
 ];
-
-let preferences = [];
 
 const ContactForm = () => {
     // We'll update "values" as the form updates
@@ -79,7 +77,7 @@ const ContactForm = () => {
     const handleSubmit = async () => {
         setValues(initialFormValues);
 
-        await axios.post(`${process.env.REACT_APP_API_URL}/movies/foreign`, {
+        await axios.post(`${process.env.REACT_APP_API_URL}/movies/sendMail`, {
             senderName: `${values.lastName} ${values.firstName}`,
             senderMail: `${values.email}`,
             messageContent: `${values.message}`

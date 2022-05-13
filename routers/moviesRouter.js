@@ -132,7 +132,7 @@ router.put("/:id", (req, res) => {
 }
 );
 
-router.post("/foreign", async (req, res) => {
+router.post("/sendMail", async (req, res) => {
     const { senderName, senderMail, messageContent } =
         req.body;
 
