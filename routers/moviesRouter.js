@@ -2,9 +2,25 @@ const connection = require("../db.js");
 const mysql = require("mysql");
 const express = require("express");
 const { sendMail } = require("../mail.js");
+const { getMovies } = require("../movies.js");
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.post("/", async (req, res) => {
+    const { query } = req.body;
+
+    try {
+        const movies = await getMovies(query);
+
+        return res.json({
+            movies: movies.data,
+        });
+    } catch (err) {
+        console.log(err);
+        return res.send("Something went wrong");
+    }
+})
+
+router.get("/searchedMovies", (req, res) => {
     connection.query("SELECT * FROM movies", (err, results) => {
         if (err) {
             return res.send(err);
@@ -28,7 +44,7 @@ router.post("/movies", (req, res) => {
         return res.status(400).send("Bad request. Missing parametres.");
     }
 
-    const queryString = `INSERT INTO messages (movieName, searchDate, userName) VALUES (${mysql.escape(movieName)}, ${mysql.escape(searchDate)}, ${mysql.escape(userName)})`;
+    const queryString = `INSERT INTO movies (movieName, searchDate, userName) VALUES (${mysql.escape(movieName)}, ${mysql.escape(searchDate)}, ${mysql.escape(userName)})`;
 
     connection.query(queryString, (err, results) => {
         if (err) {
@@ -117,10 +133,10 @@ router.put("/:id", (req, res) => {
 );
 
 router.post("/foreign", async (req, res) => {
-    const { senderName, senderMail, receiverMail, messageContent } =
+    const { senderName, senderMail, messageContent } =
         req.body;
 
-    if (!senderName || !senderMail || !receiverMail || !messageContent) {
+    if (!senderName || !senderMail || !messageContent) {
         // send bad request error
         return res.status(400).send("Bad request. Missing parametres.");
     }
@@ -128,10 +144,12 @@ router.post("/foreign", async (req, res) => {
     try {
         //Send the message through the mail service
         const sendMailResponse = await sendMail(
-            receiverMail,
             senderMail,
             senderName + "" + " sent you a message",
+            messageContent,
         );
+
+        return res.send();
     } catch (err) {
         console.log(err);
         return res.send("Something went wrong");
