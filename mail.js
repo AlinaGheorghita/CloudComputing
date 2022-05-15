@@ -33,16 +33,11 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendMail = async (sender, subject, msg) => {
-    const mg = `
-        Email: ${sender}\r\n
-        Message: ${msg}
-    `;
-
     const message = {
         from: `${sender}`,
         to: "reina.senger93@ethereal.email",
         subject: `${subject}`,
-        text: `${mg}`
+        text: `${msg}`
     }
 
     transporter.sendMail(message, function(err, info) {
