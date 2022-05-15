@@ -2,6 +2,8 @@
 
 Aplicatia realizata este destinata celor care doresc sa caute filme si informatii despre acestea.
 
+Link prezentare youtube: https://youtu.be/VLQTS_fYLnk
+
 In cele doua input-uri se introduc datele (filmul pe care doriti sa il cautati si numele) si apoi se apasa butonul search.
 
 
