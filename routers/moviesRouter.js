@@ -40,7 +40,6 @@ router.post("/movies", (req, res) => {
     } = req.body;
 
     if (!movieName || !searchDate || !userName) {
-        // send bad request error
         return res.status(400).send("Bad request. Missing parametres.");
     }
 
