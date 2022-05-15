@@ -63,7 +63,7 @@ export default function MovieSection({ updateMovies, movies }) {
                                     <MovieCard image={movie.poster_path} name={movie.title} description={movie.overview} />
                                 </span>
                             )
-                            : null
+                            : value && name ? <div> No movies were found </div> : <div> No movies were searched </div>
                         }
                     </div>
                 </div>
