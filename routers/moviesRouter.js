@@ -61,7 +61,6 @@ router.post("/movies", (req, res) => {
 router.get("/:id", (req, res) => {
     const { id } = req.params;
     if (!id) {
-        // send bad request error
         return res.status(400).send("Bad request. Missing parametres.");
     }
     const queryString = `SELECT * FROM movies WHERE entryID = ${mysql.escape(id)}`;
